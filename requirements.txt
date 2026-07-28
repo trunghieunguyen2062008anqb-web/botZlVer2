@@ -1,0 +1,4 @@
+zlapi
+python-dotenv
+google-generativeai
+flask

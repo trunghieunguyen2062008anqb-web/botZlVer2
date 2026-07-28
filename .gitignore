@@ -1,0 +1,17 @@
+# Bỏ qua môi trường ảo Python
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# Bỏ qua tệp tin cấu hình bảo mật chứa Cookie/Mật khẩu
+.env
+
+# Bỏ qua dữ liệu hoạt động thực tế của bot tránh bị đè dữ liệu cũ
+bot_state.json
+groups.txt
+
+# Bỏ qua các tệp tin nén zip lưu trữ tạm thời
+*.zip
+*.rar
