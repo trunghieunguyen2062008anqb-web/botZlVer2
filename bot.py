@@ -60,7 +60,7 @@ def load_state():
             "  • Gói 6 tháng ───> 150K\n"
             "━━━━━━━━━━━━━━━━━\n"
             "💳 Quét mã QR thanh toán tự động nhận hàng trong 30s.\n"
-            "✉️ Liên hệ mua hàng: @hieuchaystore_bot"
+            "✉️ Liên hệ mua hàng: https://t.me/hieuchaystore_bot"
         ),
         "auto_send_groups": [],       # Danh sách ID nhóm nhận tin nhắn tự động
         "last_reply_timestamps": {}   # Lưu mốc thời gian đã tự động trả lời để tránh spam khi bot restart
