@@ -47,8 +47,8 @@ def load_state():
         "auto_send_messages": [
             (
                 "┌─────────────────────────────┐\n"
-                "  ✨ 𝖧𝖨𝖤𝖴 𝖢𝖧𝖠𝖸 𝖲𝖳𝖮𝖱𝖤 ✨\n"
-                "  🔥 Dịch vụ phần mềm chính hãng 🔥\n"
+                "  ✨ HCS-BOT [ AUTO ODER] ✨\n"
+                "  🔥 Uy Tín Đổi Trả 100% 🔥\n"
                 "└─────────────────────────────┘\n\n"
                 "⚡ GÓI ACCOUNT HẤP DẪN:\n"
                 "━━━━━━━━━━━━━━━━━\n"
@@ -63,7 +63,7 @@ def load_state():
             ),
             (
                 "┌─────────────────────────────┐\n"
-                "  ✨ 𝖧𝖨𝖤𝖴 𝖢𝖧𝖠𝖸 𝖲𝖳𝖮𝖱𝖤 ✨\n"
+                "  ✨ HCS-BOT [ AUTO ODER] ✨\n"
                 "  🔥 Giải trí không giới hạn 🔥\n"
                 "└─────────────────────────────┘\n\n"
                 "⚡ DỊCH VỤ YOUTUBE PREMIUM:\n"
@@ -78,7 +78,7 @@ def load_state():
             ),
             (
                 "┌─────────────────────────────┐\n"
-                "  ✨ 𝖧𝖨𝖤𝖴 𝖢𝖧𝖠𝖸 𝖲𝖳𝖮𝖱𝖤 ✨\n"
+                "  ✨ HCS-BOT [ AUTO ODER] ✨\n"
                 "  🔥 Giải pháp bán hàng tự động 🔥\n"
                 "└─────────────────────────────┘\n\n"
                 "⚡ NHẬN LÀM BOT TELEGRAM:\n"
