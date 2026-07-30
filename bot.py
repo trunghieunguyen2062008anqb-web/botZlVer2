@@ -45,15 +45,22 @@ def load_state():
         "delay_between_groups": 30,  # Giãn cách giữa mỗi nhóm (giây) - Mặc định 30 giây
         "auto_send_interval": 1800,  # Thời gian chờ sau mỗi chu kỳ (giây) - Mặc định 30 phút
         "auto_send_message": (
-            "🔥 THÔNG BÁO BÁN - HIẾU CHÁY STORE 🔥\n"
-            "⚡ Uy tín - Chất lượng - Hỗ trợ 24/7 ⚡\n\n"
-            "✨ Chọn gói phù hợp với bạn:\n"
-            "👉 YouTube Premium (1 tháng): 15K\n"
-            "👉 Clone TikTok Reg Phone (>7 ngày): 900đ\n"
-            "👉 HCS Nhận làm Bot Telegram bán hàng: 150K\n"
-            "👉 Gemini Slot (1 năm): BH 1 tháng - 25K | BH 3 tháng - 75K | BH 6 tháng - 150K\n\n"
-            "💳 Thanh toán QR tự động 24/7 - Nhận hàng ngay tức thì!\n"
-            "✉️ Mua hàng tại Telegram: @hieuchaystore_bot"
+            "┌─────────────────────────────┐\n"
+            "  ✨ 𝖧𝖨𝖤𝖴 𝖢𝖧𝖠𝖸 𝖲𝖳𝖮𝖱𝖤 ✨\n"
+            "  🔥 Dịch vụ phần mềm chính hãng 🔥\n"
+            "└─────────────────────────────┘\n\n"
+            "⚡ BẢNG GIÁ DỊCH VỤ:\n"
+            "━━━━━━━━━━━━━━━━━\n"
+            "✦ YouTube Premium (1 tháng) ───> 15.000đ\n"
+            "✦ TikTok Clone Reg (>7 ngày) ───> 900đ\n"
+            "✦ Làm Bot Telegram bán hàng ───> 150.000đ\n"
+            "✦ Gemini Slot (1 năm):\n"
+            "  • Gói 1 tháng ───> 25K\n"
+            "  • Gói 3 tháng ───> 75K\n"
+            "  • Gói 6 tháng ───> 150K\n"
+            "━━━━━━━━━━━━━━━━━\n"
+            "💳 Quét mã QR thanh toán tự động nhận hàng trong 30s.\n"
+            "✉️ Liên hệ mua hàng: @hieuchaystore_bot"
         ),
         "auto_send_groups": [],       # Danh sách ID nhóm nhận tin nhắn tự động
         "last_reply_timestamps": {}   # Lưu mốc thời gian đã tự động trả lời để tránh spam khi bot restart
