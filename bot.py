@@ -44,24 +44,56 @@ def load_state():
         "random_delay_enabled": False,  # Tắt giãn cách ngẫu nhiên mặc định
         "delay_between_groups": 30,  # Giãn cách giữa mỗi nhóm (giây) - Mặc định 30 giây
         "auto_send_interval": 1800,  # Thời gian chờ sau mỗi chu kỳ (giây) - Mặc định 30 phút
-        "auto_send_message": (
-            "┌─────────────────────────────┐\n"
-            "  ✨ 𝖧𝖨𝖤𝖴 𝖢𝖧𝖠𝖸 𝖲𝖳𝖮𝖱𝖤 ✨\n"
-            "  🔥 Dịch vụ phần mềm chính hãng 🔥\n"
-            "└─────────────────────────────┘\n\n"
-            "⚡ BẢNG GIÁ DỊCH VỤ:\n"
-            "━━━━━━━━━━━━━━━━━\n"
-            "✦ YouTube Premium (1 tháng) ───> 15.000đ\n"
-            "✦ TikTok Clone Reg (>7 ngày) ───> 900đ\n"
-            "✦ Làm Bot Telegram bán hàng ───> 150.000đ\n"
-            "✦ Gemini Slot (1 năm):\n"
-            "  • Gói 1 tháng ───> 25K\n"
-            "  • Gói 3 tháng ───> 75K\n"
-            "  • Gói 6 tháng ───> 150K\n"
-            "━━━━━━━━━━━━━━━━━\n"
-            "💳 Quét mã QR thanh toán tự động nhận hàng trong 30s.\n"
-            "✉️ Liên hệ mua hàng: https://t.me/hieuchaystore_bot"
-        ),
+        "auto_send_messages": [
+            (
+                "┌─────────────────────────────┐\n"
+                "  ✨ 𝖧𝖨𝖤𝖴 𝖢𝖧𝖠𝖸 𝖲𝖳𝖮𝖱𝖤 ✨\n"
+                "  🔥 Dịch vụ phần mềm chính hãng 🔥\n"
+                "└─────────────────────────────┘\n\n"
+                "⚡ GÓI ACCOUNT HẤP DẪN:\n"
+                "━━━━━━━━━━━━━━━━━\n"
+                "✦ TikTok Clone Reg (>7 ngày) ───> 900đ\n"
+                "✦ Gemini Slot (1 năm):\n"
+                "  • Gói 1 tháng ───> 25K\n"
+                "  • Gói 3 tháng ───> 75K\n"
+                "  • Gói 6 tháng ───> 150K\n"
+                "━━━━━━━━━━━━━━━━━\n"
+                "💳 Quét mã QR thanh toán tự động nhận hàng trong 30s.\n"
+                "✉️ Liên hệ mua hàng: https://t.me/hieuchaystore_bot"
+            ),
+            (
+                "┌─────────────────────────────┐\n"
+                "  ✨ 𝖧𝖨𝖤𝖴 𝖢𝖧𝖠𝖸 𝖲𝖳𝖮𝖱𝖤 ✨\n"
+                "  🔥 Giải trí không giới hạn 🔥\n"
+                "└─────────────────────────────┘\n\n"
+                "⚡ DỊCH VỤ YOUTUBE PREMIUM:\n"
+                "━━━━━━━━━━━━━━━━━\n"
+                "✦ YouTube Premium (1 tháng) ───> 15.000đ\n"
+                "  • Xem video không quảng cáo\n"
+                "  • Phát nhạc trong nền/tắt màn hình\n"
+                "  • Tải video xem offline cực tiện lợi\n"
+                "━━━━━━━━━━━━━━━━━\n"
+                "💳 Thanh toán tự động - Nhận tài khoản ngay trong 30s.\n"
+                "✉️ Liên hệ mua hàng: https://t.me/hieuchaystore_bot"
+            ),
+            (
+                "┌─────────────────────────────┐\n"
+                "  ✨ 𝖧𝖨𝖤𝖴 𝖢𝖧𝖠𝖸 𝖲𝖳𝖮𝖱𝖤 ✨\n"
+                "  🔥 Giải pháp bán hàng tự động 🔥\n"
+                "└─────────────────────────────┘\n\n"
+                "⚡ NHẬN LÀM BOT TELEGRAM:\n"
+                "━━━━━━━━━━━━━━━━━\n"
+                "✦ Thiết kế Bot Telegram bán hàng ───> 150.000đ\n"
+                "  • Quản lý đơn hàng tự động 24/7\n"
+                "  • Tích hợp thanh toán quét mã QR\n"
+                "  • Thống kê doanh thu chi tiết\n"
+                "━━━━━━━━━━━━━━━━━\n"
+                "💳 Nâng tầm kinh doanh - Chi phí tối ưu nhất.\n"
+                "✉️ Liên hệ mua hàng: https://t.me/hieuchaystore_bot"
+            )
+        ],
+        "current_message_index": 0,
+        "auto_send_message": "",
         "auto_send_groups": [],       # Danh sách ID nhóm nhận tin nhắn tự động
         "last_reply_timestamps": {}   # Lưu mốc thời gian đã tự động trả lời để tránh spam khi bot restart
     }
@@ -431,6 +463,21 @@ def auto_send_thread_worker():
                         print(f"📢 Bắt đầu chu kỳ rải tin đến {len(groups)} nhóm...")
                         consecutive_errors = 0
                         
+                        # Chọn tin nhắn quảng cáo xoay vòng cho chu kỳ này
+                        messages = list(bot_instance.state.get("auto_send_messages", []))
+                        msg_idx = bot_instance.state.get("current_message_index", 0)
+                        
+                        if messages:
+                            if msg_idx >= len(messages):
+                                msg_idx = 0
+                            message_text = messages[msg_idx]
+                            # Tăng chỉ số xoay vòng cho đợt tiếp theo
+                            bot_instance.state["current_message_index"] = (msg_idx + 1) % len(messages)
+                            save_state(bot_instance.state)
+                            print(f"🔄 Xoay vòng tin nhắn: Đang gửi tin quảng cáo số {msg_idx + 1}/{len(messages)}...")
+                        else:
+                            message_text = bot_instance.state.get("auto_send_message", "")
+                            
                         for idx, group_id in enumerate(groups):
                             # Kiểm tra xem bot có bị ngắt kết nối hoặc tắt rải tin không
                             if bot_instance != active_bot or not bot_instance.state.get("auto_send_enabled", False):
@@ -448,8 +495,7 @@ def auto_send_thread_worker():
                                 print(f"⚠️ Bỏ qua rải tin ID nhóm {group_id}: Bạn không ở trong nhóm này hoặc ID không tồn tại.")
                                 continue
                                 
-                            # Đọc nội dung tin nhắn quảng cáo mới nhất tại thời điểm gửi
-                            message_text = bot_instance.state.get("auto_send_message", "")
+                            # Sử dụng tin nhắn đã chọn cho chu kỳ này
                             if not message_text:
                                 time.sleep(5)
                                 continue
