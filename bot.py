@@ -43,7 +43,7 @@ def load_state():
         "auto_send_enabled": False,
         "random_delay_enabled": True,  # Bật giãn cách ngẫu nhiên từ 15s đến 10p
         "delay_between_groups": 600,  # Giãn cách giữa mỗi nhóm (giây) - Mặc định 10 phút
-        "auto_send_interval": 3600,  # Thời gian chờ sau mỗi chu kỳ (giây) - Mặc định 1 tiếng
+        "auto_send_interval": 900,  # Thời gian chờ sau mỗi chu kỳ (giây) - Mặc định 15 phút
         "auto_send_message": (
             "🔥 THÔNG BÁO BÁN - HIẾU CHÁY STORE 🔥\n"
             "⚡ Uy tín - Chất lượng - Hỗ trợ 24/7 ⚡\n\n"
@@ -289,7 +289,7 @@ class PersonalZaloBot(ZaloAPI):
                 "👉 .delgroup - Xóa nhóm hiện tại khỏi danh sách gửi định kỳ\n"
                 "👉 .groups - Xem danh sách nhóm đã đăng ký\n"
                 "👉 .autosend msg [nội dung] - Cài đặt tin nhắn định kỳ\n"
-                "👉 .autosend time [số giây] - Cài đặt khoảng thời gian gửi (ví dụ: 3600 cho 1 tiếng)"
+                "👉 .autosend time [số giây] - Cài đặt khoảng thời gian gửi (ví dụ: 900 cho 15 phút)"
             )
             self.send(Message(text=help_msg), thread_id, thread_type)
 
@@ -513,7 +513,7 @@ def auto_send_thread_worker():
                                     
                         # Chờ chu kỳ tiếp theo sau khi rải hết toàn bộ nhóm
                         if bot_instance == active_bot and bot_instance.state.get("auto_send_enabled", False) and bot_status != "ERROR":
-                            global_interval = bot_instance.state.get("auto_send_interval", 3600)
+                            global_interval = bot_instance.state.get("auto_send_interval", 900)
                             print(f"🎉 Đã rải hết các nhóm. Chờ {global_interval} giây trước khi bắt đầu chu kỳ tiếp theo...")
                             
                             start_sleep_time = time.time()
@@ -522,7 +522,7 @@ def auto_send_thread_worker():
                                     break
                                 if list(bot_instance.state.get("auto_send_groups", [])) != groups:
                                     break
-                                global_interval = bot_instance.state.get("auto_send_interval", 3600)
+                                global_interval = bot_instance.state.get("auto_send_interval", 900)
                                 time.sleep(1)
                     else:
                         time.sleep(5)
@@ -758,7 +758,7 @@ def update_config():
     data = request.json
     state = load_state()
     
-    state["auto_send_interval"] = int(data.get("interval", 3600))
+    state["auto_send_interval"] = int(data.get("interval", 900))
     state["delay_between_groups"] = int(data.get("delay_between_groups", 600))
     state["auto_send_message"] = data.get("message", "")
     save_state(state)
