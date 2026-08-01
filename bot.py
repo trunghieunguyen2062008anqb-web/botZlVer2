@@ -43,7 +43,7 @@ def load_state():
         "auto_send_enabled": False,
         "random_delay_enabled": False,  # Tắt giãn cách ngẫu nhiên mặc định
         "delay_between_groups": 30,  # Giãn cách giữa mỗi nhóm (giây) - Mặc định 30 giây
-        "auto_send_interval": 1800,  # Thời gian chờ sau mỗi chu kỳ (giây) - Mặc định 30 phút
+        "auto_send_interval": 900,  # Thời gian chờ sau mỗi chu kỳ (giây) - Mặc định 15 phút (900 giây)
         "auto_send_messages": [
             (
                 "✨ HIẾU CHÁY STORE ✨\n\n"
@@ -841,7 +841,7 @@ def update_config():
     data = request.json
     state = load_state()
     
-    state["auto_send_interval"] = int(data.get("interval", 1800))
+    state["auto_send_interval"] = int(data.get("interval", 900))
     state["delay_between_groups"] = int(data.get("delay_between_groups", 30))
     state["auto_send_messages"] = data.get("messages", [])
     if state["auto_send_messages"]:
