@@ -432,6 +432,26 @@ def is_silent_hours():
     if current_hour >= 22 or current_hour < 7:
         return True
     return False
+def search_user_by_phone(bot_instance, phone_number):
+    """Tìm kiếm User ID và QR Code của số điện thoại trên Zalo"""
+    try:
+        params = {"zpw_ver": 647, "zpw_type": 30}
+        payload = {"params": bot_instance._encode({"phone": str(phone_number), "imei": bot_instance._imei})}
+        response = bot_instance._post("https://friend-wpa.chat.zalo.me/api/friend/search", params=params, data=payload)
+        data = response.json()
+        if data.get("error_code") == 0:
+            decoded = bot_instance._decode(data.get("data"))
+            if isinstance(decoded, str):
+                import json
+                decoded = json.loads(decoded)
+            if decoded:
+                uid = decoded.get("uid") or decoded.get("userId") or decoded.get("contactUid")
+                qr = decoded.get("qrCodeUrl") or ""
+                return uid, qr
+    except Exception as e:
+        print(f"⚠️ Lỗi khi tìm kiếm số điện thoại {phone_number}: {e}")
+    return None, None
+
 
 
 def auto_send_thread_worker():
@@ -518,6 +538,30 @@ def auto_send_thread_worker():
                                 )
                                 print(f"✅ Gửi thành công đến nhóm: {group_name} (ID: {group_id})")
                                 consecutive_errors = 0  # Reset bộ đếm lỗi khi gửi thành công
+                                
+                                # Nếu tin nhắn có chữ "gdtg" và chứa số điện thoại, tự động gửi kèm danh thiếp
+                                if "gdtg" in message_text.lower():
+                                    import re
+                                    phones = re.findall(r'0\d{9}', message_text)
+                                    if phones:
+                                        target_phone = phones[0]
+                                        try:
+                                            print(f"🎴 Phát hiện tin nhắn GDTG chứa SĐT {target_phone}. Đang lấy danh thiếp...")
+                                            card_uid, qr_url = search_user_by_phone(bot_instance, target_phone)
+                                            if card_uid:
+                                                time.sleep(1.5)  # Chờ 1.5s giãn cách tránh bị chặn
+                                                bot_instance.sendBusinessCard(
+                                                    userId=card_uid,
+                                                    qrCodeUrl=qr_url,
+                                                    phone=target_phone,
+                                                    thread_id=group_id,
+                                                    thread_type=ThreadType.GROUP
+                                                )
+                                                print(f"✅ Đã gửi kèm danh thiếp cho SĐT {target_phone} vào nhóm {group_name}!")
+                                            else:
+                                                print(f"⚠️ Không tìm thấy UID của {target_phone}. Bỏ qua gửi danh thiếp.")
+                                        except Exception as card_err:
+                                            print(f"⚠️ Lỗi gửi danh thiếp: {card_err}")
                             except Exception as e:
                                 print(f"❌ Lỗi khi gửi đến nhóm {group_name} ({group_id}): {e}")
                                 consecutive_errors += 1
@@ -813,13 +857,16 @@ def update_config():
     
     state["auto_send_interval"] = int(data.get("interval", 1800))
     state["delay_between_groups"] = int(data.get("delay_between_groups", 30))
-    state["auto_send_message"] = data.get("message", "")
+    state["auto_send_messages"] = data.get("messages", [])
+    if state["auto_send_messages"]:
+        state["auto_send_message"] = state["auto_send_messages"][0]
     save_state(state)
     
     # Đồng bộ với instance đang chạy
     if bot_instance:
         bot_instance.state["auto_send_interval"] = state["auto_send_interval"]
         bot_instance.state["delay_between_groups"] = state["delay_between_groups"]
+        bot_instance.state["auto_send_messages"] = state["auto_send_messages"]
         bot_instance.state["auto_send_message"] = state["auto_send_message"]
         
     trigger_send_now = True
