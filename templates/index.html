@@ -177,6 +177,9 @@
                             <button type="button" onclick="switchAdTab(3)" id="adTabBtn-3" class="px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer transition-all bg-slate-800 text-slate-400 border border-white/5">
                                 🤝 Tin 4: Thu mua Zalo GDTG
                             </button>
+                            <button type="button" onclick="switchAdTab(4)" id="adTabBtn-4" class="px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer transition-all bg-slate-800 text-slate-400 border border-white/5">
+                                💬 Tin 5: Link nhóm Zalo
+                            </button>
                         </div>
                         
                         <!-- Tab Contents -->
@@ -191,6 +194,9 @@
                         </div>
                         <div id="adTabContent-3" class="hidden">
                             <textarea name="message3" rows="8" class="w-full bg-slate-900/60 border border-white/5 rounded-xl px-4 py-3 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 text-slate-300 font-mono" placeholder="Nội dung tin nhắn quảng cáo 4...">{{ state.auto_send_messages[3] if state.auto_send_messages and state.auto_send_messages|length > 3 else "" }}</textarea>
+                        </div>
+                        <div id="adTabContent-4" class="hidden">
+                            <textarea name="message4" rows="8" class="w-full bg-slate-900/60 border border-white/5 rounded-xl px-4 py-3 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 text-slate-300 font-mono" placeholder="Nội dung tin nhắn quảng cáo 5...">{{ state.auto_send_messages[4] if state.auto_send_messages and state.auto_send_messages|length > 4 else "" }}</textarea>
                         </div>
                     </div>
                     <button type="submit" class="w-full sm:w-auto self-end px-6 py-2.5 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 active:scale-95 transition text-white font-medium rounded-xl text-sm shadow-md shadow-red-600/10 cursor-pointer">
@@ -348,7 +354,8 @@
                         formData.get('message0'),
                         formData.get('message1'),
                         formData.get('message2'),
-                        formData.get('message3')
+                        formData.get('message3'),
+                        formData.get('message4')
                     ]
                 })
             })
@@ -460,7 +467,7 @@
         }
 
         function switchAdTab(idx) {
-            for (let i = 0; i < 4; i++) {
+            for (let i = 0; i < 5; i++) {
                 const btn = document.getElementById('adTabBtn-' + i);
                 const content = document.getElementById('adTabContent-' + i);
                 if (i === idx) {
