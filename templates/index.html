@@ -22,6 +22,38 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        /* Hiệu ứng xoay tròn chậm cho icon bánh răng cấu hình */
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 10s linear infinite;
+        }
+
+        /* Hiệu ứng nhịp đập phát sáng nhẹ cho icon tia sét */
+        @keyframes beat-slow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.3)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.6)); }
+        }
+        .animate-beat-slow {
+            animation: beat-slow 2s infinite ease-in-out;
+        }
+
+        /* Hiệu ứng rung lắc nhẹ cho icon loa rải tin */
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            15% { transform: rotate(8deg); }
+            30% { transform: rotate(-8deg); }
+            45% { transform: rotate(4deg); }
+            60% { transform: rotate(-4deg); }
+            75% { transform: rotate(2deg); }
+            90% { transform: rotate(-2deg); }
+        }
+        .animate-wiggle {
+            animation: wiggle 2.5s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen pb-12">
@@ -62,27 +94,40 @@
         <div class="md:col-span-1 flex flex-col gap-6">
             <!-- Card trạng thái kết nối -->
             <div class="glass-card rounded-2xl p-6 flex flex-col gap-4">
-                <h2 class="text-md font-semibold text-slate-300 border-b border-white/5 pb-2">⚡ BẢNG ĐIỀU KHIỂN HỆ THỐNG</h2>
+                <h2 class="text-md font-semibold text-slate-300 border-b border-white/5 pb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-amber-400 animate-beat-slow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    BẢNG ĐIỀU KHIỂN HỆ THỐNG
+                </h2>
                 
                 {% if error_msg %}
                     <div class="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-xs text-rose-400 break-words">
                         <strong>Lỗi:</strong> {{ error_msg }}
                     </div>
                 {% endif %}
-
+                
                 <div class="flex flex-col gap-2 mt-2">
-                    <button onclick="controlBot('start')" class="w-full py-2.5 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 active:scale-95 transition text-white font-medium rounded-xl text-sm shadow-lg shadow-red-600/20 cursor-pointer">
-                        🔄 Kết nối / Khởi động lại Bot Zalo
+                    <button onclick="controlBot('start')" class="w-full py-2.5 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 active:scale-95 transition text-white font-medium rounded-xl text-sm shadow-lg shadow-red-600/20 cursor-pointer flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.27 15H18"></path></svg>
+                        Kết nối / Khởi động lại Bot
                     </button>
-                    <button onclick="controlBot('stop')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 transition text-slate-300 font-medium rounded-xl text-sm border border-white/5 cursor-pointer">
-                        🛑 Ngắt kết nối Bot Zalo
+                    <button onclick="controlBot('stop')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 transition text-slate-300 font-medium rounded-xl text-sm border border-white/5 cursor-pointer flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                        Ngắt kết nối Bot Zalo
                     </button>
                 </div>
             </div>
 
             <!-- Card Cấu hình tài khoản và cookie Zalo -->
             <div class="glass-card rounded-2xl p-6 flex flex-col gap-4">
-                <h2 class="text-md font-semibold text-slate-300 border-b border-white/5 pb-2">🔑 THÔNG TIN ĐĂNG NHẬP (FILE .ENV)</h2>
+                <h2 class="text-md font-semibold text-slate-300 border-b border-white/5 pb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-red-500 animate-spin-slow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    CẤU HÌNH ĐĂNG NHẬP (.ENV)
+                </h2>
                 <form id="envForm" class="flex flex-col gap-3 text-sm">
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">COOKIE Zalo Web:</label>
@@ -149,7 +194,12 @@
 
             <!-- Form Soạn tin nhắn rải nhóm & chu kỳ -->
             <div class="glass-card rounded-2xl p-6 flex flex-col gap-4">
-                <h2 class="text-md font-semibold text-slate-300 border-b border-white/5 pb-2">📢 CẤU HÌNH NỘI DUNG RẢI TIN NHÓM</h2>
+                <h2 class="text-md font-semibold text-slate-300 border-b border-white/5 pb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-red-500 animate-wiggle" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+                    </svg>
+                    CẤU HÌNH NỘI DUNG RẢI TIN NHÓM
+                </h2>
                 <form id="configForm" class="flex flex-col gap-4 text-sm">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
@@ -199,8 +249,11 @@
                             <textarea name="message4" rows="8" class="w-full bg-slate-900/60 border border-white/5 rounded-xl px-4 py-3 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 text-slate-300 font-mono" placeholder="Nội dung tin nhắn quảng cáo 5...">{{ state.auto_send_messages[4] if state.auto_send_messages and state.auto_send_messages|length > 4 else "" }}</textarea>
                         </div>
                     </div>
-                    <button type="submit" class="w-full sm:w-auto self-end px-6 py-2.5 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 active:scale-95 transition text-white font-medium rounded-xl text-sm shadow-md shadow-red-600/10 cursor-pointer">
-                        💾 Lưu Cài Đặt Tin Nhắn
+                    <button type="submit" class="w-full sm:w-auto self-end px-6 py-2.5 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 active:scale-95 transition text-white font-medium rounded-xl text-sm shadow-md shadow-red-600/10 cursor-pointer flex items-center justify-center gap-2 group">
+                        <svg class="w-4 h-4 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                        </svg>
+                        Lưu Cài Đặt Tin Nhắn
                     </button>
                 </form>
             </div>
@@ -208,7 +261,12 @@
             <!-- Quản lý danh sách ID nhóm rải tin -->
             <div class="glass-card rounded-2xl p-6 flex flex-col gap-4">
                 <div class="flex justify-between items-center border-b border-white/5 pb-2">
-                    <h2 class="text-md font-semibold text-slate-300">📋 DANH SÁCH ID NHÓM SẼ RẢI TIN (FILE GROUPS.TXT)</h2>
+                    <h2 class="text-md font-semibold text-slate-300 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                        DANH SÁCH ID NHÓM SẼ RẢI TIN (GROUPS.TXT)
+                    </h2>
                     <span class="text-xs text-slate-400">Cách mỗi nhóm 10 phút</span>
                 </div>
                 
@@ -218,8 +276,11 @@
                         <textarea name="groups" rows="6" class="w-full bg-slate-900/60 border border-white/5 rounded-xl px-3 py-2 text-xs focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 text-slate-300 font-mono" placeholder="Nhập danh sách ID nhóm ở đây...">{{ group_list_txt }}</textarea>
                     </div>
                     
-                    <button type="button" onclick="toggleGroupSelector()" class="w-full text-center px-4 py-2 bg-slate-800/80 hover:bg-slate-700 active:scale-95 transition text-red-400 border border-red-500/20 font-semibold rounded-xl text-xs cursor-pointer mb-2">
-                        🔍 Hoặc Quét & Chọn Nhóm Trực Quan Từ Zalo
+                    <button type="button" onclick="toggleGroupSelector()" class="w-full text-center px-4 py-2 bg-slate-800/80 hover:bg-slate-700 active:scale-95 transition text-red-400 border border-red-500/20 font-semibold rounded-xl text-xs cursor-pointer mb-2 flex items-center justify-center gap-2 group">
+                        <svg class="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Quét & Chọn Nhóm Trực Quan Từ Zalo
                     </button>
 
                     <!-- Bộ chọn nhóm trực quan ẩn -->
@@ -241,8 +302,11 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full sm:w-auto self-end px-6 py-2 bg-slate-800 hover:bg-slate-700 active:scale-95 transition text-slate-200 font-medium rounded-xl text-xs border border-white/5 cursor-pointer">
-                        💾 Lưu Danh Sách Nhóm
+                    <button type="submit" class="w-full sm:w-auto self-end px-6 py-2 bg-slate-800 hover:bg-slate-700 active:scale-95 transition text-slate-200 font-medium rounded-xl text-xs border border-white/5 cursor-pointer flex items-center justify-center gap-2 group">
+                        <svg class="w-4 h-4 text-red-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                        </svg>
+                        Lưu Danh Sách Nhóm
                     </button>
                 </form>
             </div>
