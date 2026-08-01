@@ -229,8 +229,8 @@ class PersonalZaloBot(ZaloAPI):
 
         message = message.strip()
 
-        # 1. Xử lý các lệnh cấu hình bắt đầu bằng dấu chấm '.'
-        if message.startswith("."):
+        # 1. Xử lý các lệnh cấu hình bắt đầu bằng dấu chấm '.' (Chỉ cho phép chính CHỦ tài khoản gửi lệnh)
+        if author_id == my_uid and message.startswith(".") and not message.startswith("..."):
             print(f"📩 [LỆNH CHẠY] {author_id}: {message}")
             self.handle_command(message, thread_id, thread_type, author_id)
             return
